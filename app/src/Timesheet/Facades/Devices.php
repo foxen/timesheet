@@ -6,7 +6,7 @@ class Devices extends Facade {
 
     protected static function getFacadeAccessor() { 
 
-        return 'DevicesInterface'; 
+        return 'Timesheet\Repository\Devices\DevicesInterface'; 
 
     }
 

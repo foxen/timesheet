@@ -6,7 +6,7 @@ class SimpleDb extends Facade {
 
     protected static function getFacadeAccessor() { 
 
-        return 'SimpleDbInterface'; 
+        return 'Timesheet\Repository\SimpleDb\SimpleDbInterface'; 
 
     }
 

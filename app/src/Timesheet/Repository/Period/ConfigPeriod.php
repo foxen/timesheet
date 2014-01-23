@@ -3,13 +3,14 @@
 class ConfigPeriod implements PeriodInterface {
 
     public function getStartDate(){
-        return \Config::get('period.start_date');
+        return date('d.m.Y', strtotime( "-1 day",
+            strtotime(\Config::get('period.start_date'))));
     }
 
     public function getEndDate(){
         
         return date('d.m.Y', strtotime( "+1 month",
-            strtotime($this->getStartDate())));
+            strtotime(\Config::get('period.start_date'))));
     }
 
     public function getDates(){

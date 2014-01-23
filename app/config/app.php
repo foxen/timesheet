@@ -106,9 +106,8 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-		'Timesheet\Repository\SimpleDb\SimpleDbServiceProvider',
-		'Timesheet\Repository\Devices\DevicesServiceProvider',
-		'Timesheet\Repository\Period\PeriodServiceProvider',
+		
+		'Timesheet\Repository\RepositoryServiceProvider',
 
 	),
 
@@ -175,9 +174,13 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+		
 		'SimpleDb'        => 'Timesheet\Facades\SimpleDb',
 		'Devices'         => 'Timesheet\Facades\Devices',
 		'Period'          => 'Timesheet\Facades\Period',
+		'InputAdapter'    => 'Timesheet\Facades\InputAdapter',
+		'Data'			  => 'Timesheet\Facades\Data',
+		'Sync'			  => 'Timesheet\Facades\Sync',
 
 	),
 

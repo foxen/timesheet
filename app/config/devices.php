@@ -8,9 +8,9 @@ return array(
             
             '27193' => array(
                 
-                'fromDt'      => '30.11.13',
+                'fromDt'      => '30.08.2013',
                 'fromTm'      => '00:00:00',
-                'toDtTm'      => '',
+                'toDt'        => '',
                 'toTm'        => '',
                 
                 'area'        => 'drive',
@@ -19,9 +19,9 @@ return array(
             
             '23993' => array(
                 
-                'fromDt'      => '30.11.13',
+                'fromDt'      => '30.08.2013',
                 'fromTm'      => '00:00:00',
-                'toDtTm'      => '',
+                'toDt'        => '',
                 'toTm'        => '',
                 
                 'area'        => 'walk',
@@ -33,9 +33,9 @@ return array(
         'readers' => array(
 
             '24171' => array(
-                'fromDt'      => '30.11.13',
+                'fromDt'      => '30.08.2013',
                 'fromTm'      => '00:00:00',
-                'toDtTm'      => '',
+                'toDt'        => '',
                 'toTm'        => '',
                 'direction'   => 'in', 
                 'area'        => 'walk',
@@ -44,9 +44,9 @@ return array(
             ),
 
             '24058' => array(
-                'fromDt'      => '30.11.13',
+                'fromDt'      => '30.08.2013',
                 'fromTm'      => '00:00:00',
-                'toDtTm'      => '',
+                'toDt'        => '',
                 'toTm'        => '',
                 'direction'   => 'out', 
                 'area'        => 'walk',
@@ -55,9 +55,9 @@ return array(
             ),
 
             '27371' => array(
-                'fromDt'      => '30.11.13',
+                'fromDt'      => '30.08.2013',
                 'fromTm'      => '00:00:00',
-                'toDtTm'      => '',
+                'toDt'        => '',
                 'toTm'        => '',
                 'direction'   => 'in', 
                 'area'        => 'drive',
@@ -66,9 +66,9 @@ return array(
             ),
 
             '27258' => array(
-                'fromDt'      => '30.11.13',
+                'fromDt'      => '30.08.2013',
                 'fromTm'      => '00:00:00',
-                'toDtTm'      => '',
+                'toDt'        => '',
                 'toTm'        => '',
                 'direction'   => 'out', 
                 'area'        => 'drive',

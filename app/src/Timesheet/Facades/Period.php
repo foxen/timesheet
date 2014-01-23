@@ -6,7 +6,7 @@ class Period extends Facade {
 
     protected static function getFacadeAccessor() { 
 
-        return 'PeriodInterface'; 
+        return 'Timesheet\Repository\Period\PeriodInterface'; 
 
     }
 

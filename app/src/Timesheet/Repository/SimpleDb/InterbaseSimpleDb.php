@@ -37,7 +37,7 @@ class InterbaseSimpleDb implements SimpleDbInterface {
 
         $query = ibase_query($this->connection, $queryTxt);
 
-        while ($row = ibase_fetch_row($query)) {
+        while ($row = ibase_fetch_assoc($query)) {
             $response[] = $row;
         }
 

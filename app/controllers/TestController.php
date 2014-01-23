@@ -1,9 +1,10 @@
 <?php
-
+use Timesheet\Repository\InputAdapter\PercoInputAdapter;
 class TestController extends  BaseController {
     
     public function doit(){
-        $a = Period::getDates();
+        //$a = InputAdapter::getEvents(Period::getDates(), Devices::getControllers());
+        $a = Sync::fullSync(\Period::getDates());
         print_r($a);
     }
 }
