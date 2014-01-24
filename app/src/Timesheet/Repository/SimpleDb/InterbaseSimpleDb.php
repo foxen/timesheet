@@ -42,14 +42,14 @@ class InterbaseSimpleDb implements SimpleDbInterface {
         }
 
         ibase_free_result($query);
-        
+
         return $response;
     
     }
 
     public function closeConnection(){
         
-        ibase_close($connect_fdb);
+        ibase_close($this->connection);
     
     }
 

@@ -4,7 +4,7 @@ class TestController extends  BaseController {
     
     public function doit(){
         //$a = InputAdapter::getEvents(Period::getDates(), Devices::getControllers());
-        $a = Sync::fullSync(\Period::getDates());
+        $a = Sync::parcelSync(\Period::getDates());
         print_r($a);
     }
 }

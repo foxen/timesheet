@@ -106,7 +106,7 @@ class Sync implements SyncInterface{
 
     private function parse($datesArray){
         $controllersArray = $this->Devices->getReaders();
-        $this->Data->parse($datesArray,$controllersArray);
+        return $this->Data->parse($datesArray,$controllersArray);
     }
 }
 

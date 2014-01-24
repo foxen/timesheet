@@ -96,7 +96,8 @@ class PercoInputAdapter implements InputAdapterInterface{
             where ". $wh .
             "DATE_EV>'" . $datesArray[0] .
              "' and a.DATE_EV<'" . $datesArray[1] .
-             "' and a.STAFF_ID is not null";
+             "' and a.STAFF_ID is not null" .
+             "  and a.INNER_NUMBER_EV in (17,27,16)";
 
         return $this->dbAdapter->rawSelect($query);
     }
