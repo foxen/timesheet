@@ -35,8 +35,6 @@ class MysqlData implements DataInterface{
         return $ret[0];
     }
     
-    public function getTimesheet($datesArray){}
-    
     public function getGrafIds(){
         $query = "select distinct graf_id from staff where graf_id > 0";
         return $this->objectsToFlatArray(\DB::select($query));
@@ -47,6 +45,8 @@ class MysqlData implements DataInterface{
         return $this->insertAssoc("intervals", $intervalsArray, true, false);
     }
 
+//==================================================================================
+    
     public function parse($datesArray, $readersArray){
         
         $datesArray[0] = date('Y-m-d',strtotime($datesArray[0]));
@@ -68,6 +68,31 @@ class MysqlData implements DataInterface{
         return $res;
     
     }
+
+    public function getTimesheet($datesArray){
+        
+        $fStartDate = date('Y-m-d', strtotime($datesArray[0]));
+        $fEndDate = date('Y-m-d', strtotime($datesArray[1]));
+
+        $query = "select name, subdiv, appoint, ";
+        for ($i=1; $i<=31; $i++){
+            $iDay = date('Y-m-d', strtotime("+".$i." day", strtotime($datesArray[0])));
+            $iShDay = date('d.m', strtotime("+".$i." day", strtotime($datesArray[0])));
+            $query = $query ."TIME_FORMAT(SEC_TO_TIME(sum(if(dt like '". $iDay.
+                           "',TIME_TO_SEC(hours),0))),'%H:%i') as '".$iShDay."-t',".
+                             "TIME_FORMAT(SEC_TO_TIME(sum(if(dt like '". $iDay.
+                               "',TIME_TO_SEC(delay),0))),'%H:%i') as '".$iShDay."-d',";
+        }
+
+        $query = $query . "TIME_FORMAT(SEC_TO_TIME(sum(TIME_TO_SEC(hours))),'%H:%i') as 'ttl-t', ".
+                    "TIME_FORMAT(SEC_TO_TIME(sum(TIME_TO_SEC(delay))),'%H:%i') as 'ttl-d' ".
+            " from parsed where name is not null GROUP BY name ORDER BY subdiv, name";
+
+        return $this->objectsToArray(\DB::select($query));
+
+    }
+    
+
 //================================================================================
     private function updateControllers($datesArray, $readersArray){
 
@@ -255,6 +280,7 @@ class MysqlData implements DataInterface{
                     updated_at = values(updated_at)";
         return \DB::statement($query);
     }
+
 
 //================================================================================
     
