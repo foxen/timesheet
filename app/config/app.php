@@ -181,6 +181,7 @@ return array(
 		'InputAdapter'    => 'Timesheet\Facades\InputAdapter',
 		'Data'			  => 'Timesheet\Facades\Data',
 		'Sync'			  => 'Timesheet\Facades\Sync',
+		'Api'			  => 'Timesheet\Facades\Api',
 
 	),
 

@@ -17,5 +17,6 @@ Route::get('/', function()
 });
 
 Route::get('test1', 'TestController@doit');
+Route::get('gettimesheet', 'TestController@gettimesheet');
 
 ?>

@@ -8,6 +8,7 @@ use Timesheet\Repository\Period\ConfigPeriod;
 use Timesheet\Repository\Devices\ConfigDevices;
 use Timesheet\Repository\Data\MysqlData;
 use Timesheet\Repository\Sync\Sync;
+use Timesheet\Repository\Api\Api;
 
 class RepositoryServiceProvider extends ServiceProvider {
     
@@ -54,6 +55,13 @@ class RepositoryServiceProvider extends ServiceProvider {
             );
         });
 
+        $app->bind('Timesheet\Repository\Api\ApiInterface', function($app){
+            return new Api(
+                $app->make(
+                    'Timesheet\Repository\Data\DataInterface'
+                )
+            );
+        });
 
     }
 
