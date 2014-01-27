@@ -28,7 +28,7 @@ var Timesheet = React.createClass({
   render: function() {
     return (
       <div>
-        {this.state.side[0]}
+        { this.state.side[0]}
       </div>
     );
   }
