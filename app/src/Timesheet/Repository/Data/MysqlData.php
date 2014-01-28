@@ -72,17 +72,22 @@ class MysqlData implements DataInterface{
     public function getTimesheet($datesArray){
         
         $fStartDate = date('Y-m-d', strtotime($datesArray[0]));
-        $fEndDate = date('Y-m-d', strtotime($datesArray[1]));
+        
+        $fEndDate = strtotime($this->getLastEventDate()) <  strtotime($datesArray[1]) ? 
+                        date('Y-m-d',strtotime($this->getLastEventDate())):
+                        date('Y-m-d', strtotime($datesArray[1]));
+        
+        $days = (strtotime($fEndDate) - strtotime($fStartDate))/86400;
+        $dayCount = (integer)$days;
 
-        $query = "select name, subdiv, appoint, ";
-        for ($i=1; $i<=31; $i++){
+        $query = "select staff_id, name, subdiv, appoint, ";
+        for ($i=1; $i<=$dayCount; $i++){
             $iDay = date('Y-m-d', strtotime("+".$i." day", strtotime($datesArray[0])));
-            $iShDay = date('d.m', strtotime("+".$i." day", strtotime($datesArray[0])));
             
             $query = $query    ."TIME_FORMAT(SEC_TO_TIME(sum(if(dt like '". $iDay.
-                              "',TIME_TO_SEC(hours),0))),'%H:%i') as '".$iShDay."-t',".
+                              "',TIME_TO_SEC(hours),0))),'%H:%i') as '".$iDay."-t',".
                                 "TIME_FORMAT(SEC_TO_TIME(sum(if(dt like '". $iDay.
-                              "',TIME_TO_SEC(delay),0))),'%H:%i') as '".$iShDay."-d',";
+                              "',TIME_TO_SEC(delay),0))),'%H:%i') as '".$iDay."-d',";
         }
 
         $query = $query .   "TIME_FORMAT(SEC_TO_TIME(sum(TIME_TO_SEC(hours))),'%H:%i') as 'ttl-t', ".

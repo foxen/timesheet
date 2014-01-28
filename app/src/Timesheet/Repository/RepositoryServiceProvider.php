@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider;
 use Timesheet\Repository\SimpleDb\InterbaseSimpleDb;
 use Timesheet\Repository\InputAdapter\PercoInputAdapter;
 use Timesheet\Repository\Period\ConfigPeriod;
+use Timesheet\Repository\Days\ConfigDays;
 use Timesheet\Repository\Devices\ConfigDevices;
 use Timesheet\Repository\Data\MysqlData;
 use Timesheet\Repository\Sync\Sync;
@@ -33,6 +34,10 @@ class RepositoryServiceProvider extends ServiceProvider {
             return new ConfigPeriod;
         });
 
+        $app->bind('Timesheet\Repository\Days\DaysInterface', function(){        
+            return new ConfigDays;
+        });
+
         $app->bind('Timesheet\Repository\Devices\DevicesInterface', function(){ 
             return new ConfigDevices;
         });
@@ -58,8 +63,9 @@ class RepositoryServiceProvider extends ServiceProvider {
         $app->bind('Timesheet\Repository\Api\ApiInterface', function($app){
             return new Api(
                 $app->make(
-                    'Timesheet\Repository\Data\DataInterface'
-                )
+                    'Timesheet\Repository\Data\DataInterface'),
+                $app->make(
+                    'Timesheet\Repository\Days\DaysInterface')
             );
         });
 

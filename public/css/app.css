@@ -1,0 +1,37 @@
+body,html,div{
+    height: 100%;
+}
+.tt{
+    
+}
+
+.sBar{
+    position: fixed;
+    left:10px;
+    top:100px; 
+    width:30%;
+    margin-top: 0px;
+    background-color: #FFFFFF;
+    z-index: 40;
+
+}
+.tmsh{
+
+    position: absolute;
+    left:33%;
+    top:100px;
+    background-color: #FFFFFF;    
+    z-index: 20;
+    
+}
+.rw{
+    
+
+}
+.c{
+    width:50px;
+    white-space: nowrap;
+    text-overflow: clip;
+    overflow: hidden;
+    max-width: 80px;
+}
