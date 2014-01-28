@@ -62,7 +62,7 @@ class Api implements ApiInterface{
                                             'head'     => 'head',
                                             'head_date' => 'head_date',
                                             'freeday'   => in_array($value, $freeDaysArray)? 
-                                                                'freeday' : 'workday',),);
+                                                            'freeday' : 'workday',),);
             }
             $o = $o + 1;
         }
