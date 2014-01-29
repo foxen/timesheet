@@ -20,25 +20,28 @@ class Api implements ApiInterface{
 
     private function getLockedArray($dataArray){
         
-        $fixedHeadArray  = array(   array( 'row_id'     => '0',
+        $fixedHeadArray  = array(   array( 'id'         => '0_name',
                                            'value'      => 'Фамилия Имя Отчество',
-                                           'column'     => 'name',
+                                           'col_type'   => 'col_name',
                                            'attributes' => array(
-                                                'fixed_head'   => 'fixed_head',
-                                                'fixed_column' => 'name',),),
-                                    array( 'row_id'     => '0',
+                                                'fixed_head' => true,
+                                                'name'       => true,
+                                                'row_id_0'   => true),),
+                                    array( 'id'         => '0_subdiv',
                                            'value'      => 'Отдел',
-                                           'column'     => 'subdiv',
+                                           'col_type'   => 'col_subdiv',
                                            'attributes' => array(
-                                                'fixed_head'   => 'fixed_head',
-                                                'fixed_column' => 'subdiv',),),
+                                                'fixed_head' => true,
+                                                'subdiv'     => true,
+                                                'row_id_0'   => true,),),
 
-                                    array( 'row_id'     => '0',
+                                    array( 'id'         => '0_appount',
                                            'value'      => 'Должность',
-                                           'column'     => 'appoint',
+                                           'col_type'   => 'col_appoint',
                                            'attributes' => array(
-                                                'fixed_head'   => 'fixed_head',
-                                                'fixed_column' => 'appoint',),),);
+                                                'fixed_head' => true,
+                                                'appoint'    => true,
+                                                'row_id_0'   => true,),),);
         
         $fixedArray = array();
         $bodyArray  = array();
@@ -55,93 +58,122 @@ class Api implements ApiInterface{
         $o = 1;
         foreach ($headRawArray as $value){
             if ($o%2 != 0){
-                $headArray[] =  array(  'row_id'     => '0',
+                
+                $freeDay = in_array($value, $freeDaysArray) ? 'freeday' : 'workday';
+                
+                $headArray[] =  array(  'id'         => '0_'. $value,
                                         'value'      => substr($value,-2,2).".".substr($value,5,2),
-                                        'column'     => $value,
+                                        'col_type'   => 'col_day',
                                         'attributes' => array(
-                                            'head'     => 'head',
-                                            'head_date' => 'head_date',
-                                            'freeday'   => in_array($value, $freeDaysArray)? 
-                                                            'freeday' : 'workday',),);
+                                            'head'     => true,
+                                            $value     => true,
+                                            'row_id_0' => true,
+                                            $freeDay   => true,),);
             }
             $o = $o + 1;
         }
 
-        $headArray[] =  array(  'row_id'     => '0',
+        $headArray[] =  array(  'id'         => '0_ttl-t',
                                 'value'      => 'Отработано',
-                                'column'     => 'ttl-t',
+                                'col_type'   => 'col_ttl-t',
                                 'attributes' => array(
-                                    'head'     => 'head',
-                                    'head_ttl-t' => 'head_ttl-t',),);
+                                    'head'     => true,
+                                    'ttl-t'    => true,
+                                    'row_id_0' => true,),);
 
-        $headArray[] =  array(  'row_id'     => '0',
-                                'value'      => 'Опозданя',
-                                'column'     => 'ttl-d',
+        $headArray[] =  array(  'id'         => '0_ttl-d',
+                                'value'      => 'Опоздания',
+                                'col_type'   => 'col_ttl-d',
                                 'attributes' => array(
-                                    'head'     => 'head',
-                                    'head_ttl-d' => 'head_ttl-d',),);
+                                    'head'     => true,
+                                    'ttl-d'    => true,
+                                    'row_id_0' => true,),);
 
         
 
         foreach ($dataArray as $row) {
             $id = $row['staff_id'];
             $fixedArray[] = array(  array( 
-                                        'row_id'     => $id,
+                                        'id'     => $id.'_name',
                                         'value'      => $row['name'],
-                                        'column'     => 'name',
+                                        'col_type'   => 'col_name',
                                         'attributes' => array(
-                                            'fixed'        => 'fixed',
-                                            'fixed_column' => 'name',),),
+                                            'fixed'       => true,
+                                            'name'        => true,
+                                            'row_id_'.$id => true,),),
                                     array(
-                                        'row_id'     => $id,
+                                        'id'     => $id.'_subdiv',
                                         'value'      => $row['subdiv'],
-                                        'column'     => 'subdiv',
+                                        'col_type'   => 'col_subdiv',
                                         'attributes' => array(
-                                            'fixed'        => 'fixed',
-                                            'fixed_column' => 'subdiv',),),
+                                            'fixed'       => true,
+                                            'subdiv'      => true,
+                                            'row_id_'.$id => true,),),
                                     array(
-                                        'row_id'     => $id,
+                                        'id'     => $id.'_appoint',
                                         'value'      => $row['appoint'],
-                                        'column'     => 'appoint',
+                                        'col_type'   => 'col_appoint',
                                         'attributes' => array(
-                                            'fixed'        => 'fixed',
-                                            'fixed_column' => 'appoint'),),);
+                                            'fixed'       => true,
+                                            'appoint'      => true,
+                                            'row_id_'.$id => true,),),);
             
             $newRowArray = array();
+            
             foreach (array_slice($row,4,-2) as $key=>$value){
-                $cell = array(  'row_id'     => $id,
+                $column = substr($key,0,-2);
+                $freeDay = in_array(substr($key,0,-2), $freeDaysArray)? 
+                                                    'freeday' : 'workday';
+                $workTime = substr($key, -1) == 't' ? 'worktime' : 'delay';
+                $masked = $value == '00:00' ? 'masked' : 'normal';
+                $incorrect = in_array(substr($key,0,-2), $incorrectDaysArray)? 
+                                                    'incorrect' : 'correct';
+                if ((substr($value,0,2) >= 25) && ($incorrect == 'incorrect')){
+                    $value = '09:00';
+                }
+
+
+                $cell = array(  'id'         => $id.'_'.$column,
                                 'value'      => $value,
-                                'column'     => substr($key,0,-2),
+                                'col_type'   => 'col_'.$workTime,
                                 'attributes' => array(
-                                    'type'      => substr($key, -1) == 't' ? 'worktime' : 'delay',
-                                    'masked'    => $value == '00:00' ? 'masked' : 'normal',
-                                    'freeday'   => in_array(substr($key,0,-2), $freeDaysArray)? 
-                                                    'freeday' : 'workday',
-                                    'incorrect' => in_array(substr($key,0,-2), $incorrectDaysArray)? 
-                                                    'incorrect' : 'correct',),);
+                                    'row_id_'.$id => true,
+                                    $column       => true,
+                                    $workTime     => true,
+                                    $masked       => true,
+                                    $freeDay      => true,
+                                    $incorrect    => true,),);
                 $newRowArray[] = $cell;
             }
-            $newRowArray[] = array( 'row_id'     => $id,
+            
+            $masked = $row['ttl-t'] == '00:00' ? 'masked' : 'normal';
+            
+            $newRowArray[] = array( 'id'         => $id.'_ttl-t',
                                     'value'      => $row['ttl-t'],
-                                    'column'     => 'ttl-t',
+                                    'col_type'   => 'col_ttl-t',
                                     'attributes' => array(
-                                            'type'   => 'ttl-t',
-                                            'masked' => $row['ttl-t'] == '00:00' ? 'masked' : 'normal',),);
-            $newRowArray[] = array( 'row_id'     => $id,
+                                        'row_id_'.$id     => true,
+                                        'ttl-t'           => true,
+                                        $masked           => true,),);
+            
+            $masked = $row['ttl-d'] == '00:00' ? 'masked' : 'normal';
+            
+            $newRowArray[] = array( 'id'     => $id.'_ttl-d',
                                     'value'      => $row['ttl-d'],
-                                    'column'     => 'ttl-d',
+                                    'col_type'   => 'col_ttl-d',
                                     'attributes' => array(
-                                            'type'   => 'ttl-d',
-                                            'masked' => $row['ttl-d'] == '00:00' ? 'masked' : 'normal',),);
+                                        'row_id_'.$id    => true,
+                                        'ttl-d'          => true,
+                                        $masked          => true,),);
 
             $bodyArray[] = $newRowArray;
 
         }
                                 
-        return array( 'fixedHead' => $fixedHeadArray,
-                      'head'      => $headArray,
-                      'fixed'     =>$fixedArray,
-                      'body'      => $bodyArray);
+        return array( 'fixed_head' => array($fixedHeadArray),
+                      'head'       => array($headArray),
+                      'fixed'      => $fixedArray,
+                      'body'       => $bodyArray);
     }
 
 }

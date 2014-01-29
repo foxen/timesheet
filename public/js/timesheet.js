@@ -1,94 +1,109 @@
 /**
 * @jsx React.DOM
 */
-var Timesheet = React.createClass({
+var DummyData = { fixed_head: [[' ',' '],[' ',' '],[' ',' ']],
+                  head:        [[' ',' '],[' ',' '],[' ',' ']],
+                  fixed:       [[' ',' '],[' ',' '],[' ',' ']],
+                  body:        [[' ',' '],[' ',' '],[' ',' ']],}
+
+var TimesheetTable = React.createClass({
+  
   getInitialState: function() {
     return {
-      sideHeader: [['ZX','ZX'],['ZX','ZX'],['ZX','ZX']],
-      header:[['ZX','ZX'],['ZX','ZX'],['ZX','ZX']],
-      side:[['ZX','ZX'],['ZX','ZX'],['ZX','ZX']],
-      body:[['ZX','ZX'],['ZX','ZX'],['ZX','ZX']],
+      data:    DummyData,
     };
   },
-
   
   componentDidMount: function() {
+    
     $.get(this.props.source, function(result) {
-
       this.setState({
-
-        sideHeader: result.sh,
-        header:result.h,
-        side:result.s,
-        body:result.b,
-
+        data: result
       });
     }.bind(this));
     
   },
 
   render: function() {
-    return (
-        <div className = "tt" >
-        <div className = "sBar">
-            <SideBar data = {this.state.side} offsetY = {this.state.offsetY}/>
-        </div>
-        <div className = "tmsh" >
-            <Table data = {this.state.body}/>
-        </div>
-        </div>
-    );
-  }
-});
-//================================================================================
-var Table = React.createClass({
-  getInitialState: function() {
-    return {data   :this.props.data,};
-  },
-  
-  render: function () {
-    return (
-    <table><tbody>
-        {this.props.data.map(function(row) {
-            return (
-                <tr className = "rw">
-                    {$.map(row,function( val, index) {
-                        return <td className="c">{val}</td>;
-                    })}
-                </tr>);
-        })}
-    </tbody></table>
+    return (<div className = 'timesheet_table'>
+              
+              <ContentTable data    = {this.state.data.fixed_head}  
+                        cName   = 'timesheet_fixed_head'/>                  
+              
+              <ContentTable data    = {this.state.data.head}  
+                        cName   = 'timesheet_head'
+                        scrollableX = 'X'/>
+
+              <ContentTable data    = {this.state.data.body}  
+                        cName   = 'timesheet_body'/>
+              
+              <ContentTable data    = {this.state.data.fixed}  
+                        scrollableY = 'Y'
+                        cName   = 'timesheet_fixed'/>
+            
+            </div>
     );
   }
 });
 
-var SideBar = React.createClass({
-  
+
+//================================================================================
+
+var ContentTable = React.createClass({
   getInitialState: function() {
-    return {data   :this.props.data,
-            offsetY:0,};
+    return {
+      data:    this.props.data,
+      scrollableX: 'none',
+      scrollableY: 'none',   
+    };
   },
-  
-  handleScroll:function(event){
+
+  componentDidMount: function() {
+    if(this.props.scrollableX == 'X') {
+      window.addEventListener('scroll', this.handleScrollX);
+    }
+    if(this.props.scrollableY == 'Y') {
+      window.addEventListener('scroll', this.handleScrollY);
+    }
+  },
+
+  handleScrollY:function(event){
     
     this.setState({
-        dStile:{marginTop:-window.pageYOffset},
+        marginStyle:{marginTop:-window.pageYOffset},
     });
 
   },
 
-  componentDidMount: function() {
-    window.addEventListener('scroll', this.handleScroll);
+  handleScrollX:function(event){
+    
+    this.setState({
+        marginStyle:{marginLeft:-window.pageXOffset},
+    });
+
   },
 
   render: function () {
+
     return (
-    <table style = {this.state.dStile} ><tbody>
-        {this.props.data.map(function(row) {
+    <table className = {this.props.cName} style = {this.state.marginStyle}>
+      {$.map(this.props.data[0], function(val){
+        return(
+          <col className = {val.col_type}/>
+        )
+      })}
+      <tbody>
+        {$.map(this.props.data,function(row) {
             return (
-                <tr className = "rw">
-                    {$.map(row,function( val, index) {
-                        return <td className="c">{val}</td>;
+                <tr>
+                    {$.map(row,function(cell) {
+                        var cx = React.addons.classSet; 
+                        var classes = cx(cell.attributes);
+                        return  <td>  
+                                  <div id={cell.id} className = {classes}>
+                                      {cell.value}
+                                  </div>
+                                </td>;
                     })}
                 </tr>);
         })}
@@ -96,8 +111,9 @@ var SideBar = React.createClass({
     );
   }
 });
+
 //===============================================================================
 
 React.renderComponent(
-  <Timesheet source="http://127.0.0.1/timesheet/gettimesheet" />,
+  <TimesheetTable source="http://127.0.0.1/timesheet/gettimesheet" />,
   document.getElementById('content'));

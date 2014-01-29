@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Timesheet</title>
-    <script src="js/react.js"></script>
+    <script src="js/react-with-addons.js"></script>
     <script src="js/JSXTransformer.js"></script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/app.css"/>
