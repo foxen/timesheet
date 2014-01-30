@@ -115,5 +115,5 @@ var ContentTable = React.createClass({
 //===============================================================================
 
 React.renderComponent(
-  <TimesheetTable source="http://127.0.0.1/timesheet/gettimesheet" />,
+  <TimesheetTable source="http://192.168.253.125/timesheet/gettimesheet" />,
   document.getElementById('content'));

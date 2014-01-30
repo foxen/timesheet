@@ -14,7 +14,7 @@ td {
 
 .timesheet_body{
     position: absolute;
-    left:500px;
+    left:382px;
     top:24px;
     background-color: #FFFFFF;    
     z-index: 20;
@@ -27,7 +27,7 @@ td {
     position: fixed;
     left:00px;
     top:24px;
-    width: 500px;
+    width: 382px;
     margin-top: 0px;
     background-color: #FFFFFF;
     z-index: 40;
@@ -38,7 +38,7 @@ td {
     position: fixed;
     left:0px;
     top:0px;
-    width: 500px;
+    width: 382px;
     background-color: #FFFFFF;
     z-index: 80;   
 }
@@ -55,7 +55,7 @@ td {
 
 .timesheet_head{
     position: fixed;
-    left: 500px;
+    left: 382px;
     top: 0px;
     background-color: #FFFFFF;
     z-index: 60;
@@ -68,8 +68,8 @@ td {
     min-height: 16px;
     white-space: nowrap;
     overflow: hidden;
-    width: 40px;
-    max-width: 40px;
+    width: 35px;
+    max-width: 35px;
 }
 
 .worktime{
@@ -92,8 +92,8 @@ td {
 
 .head{
     border-right: dotted 1px  #656565;
-    width: 84px;
-    max-width: 84px;
+    width: 74px;
+    max-width: 74px;
     white-space: nowrap;
     overflow: hidden;   
 }
@@ -119,16 +119,16 @@ td {
 }
 
 .ttl-t, .ttl-d{
-    width: 100px;
-    max-width: 100px;
+    width: 80px;
+    max-width: 80px;
     white-space: nowrap;
     overflow: hidden;
 }
 
-.appoint,.name,.subdiv {padding-left: 10px;}
+.appoint,.name,.subdiv {padding-left: 4px;}
 .appoint { 
     border-right:solid 2px  #656565;
-    padding-right: 10px;
+    padding-right: 2px;
 }
 
 .name{
@@ -144,7 +144,7 @@ td {
     border-bottom: dotted 1px  #656565; 
     overflow: hidden;
     white-space: nowrap;
-    
+    text-overflow: ellipsis;
     min-height: 16px;
 }
 
@@ -167,13 +167,13 @@ td {
 }
 
 .col_name {
-    width: 226px;
+    width: 206px;
 }
 .col_appoint {
-    width: 128px;
+    width: 88px;
 }
 .col_subdiv {
-    width: 128px;
+    width: 88px;
 }
 .freeday{
     background-color: #FFD1A9;

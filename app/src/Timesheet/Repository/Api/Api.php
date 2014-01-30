@@ -128,11 +128,7 @@ class Api implements ApiInterface{
                 $masked = $value == '00:00' ? 'masked' : 'normal';
                 $incorrect = in_array(substr($key,0,-2), $incorrectDaysArray)? 
                                                     'incorrect' : 'correct';
-                if ((substr($value,0,2) >= 25) && ($incorrect == 'incorrect')){
-                    $value = '09:00';
-                }
-
-
+                                                    
                 $cell = array(  'id'         => $id.'_'.$column,
                                 'value'      => $value,
                                 'col_type'   => 'col_'.$workTime,

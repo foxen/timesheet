@@ -84,18 +84,64 @@ class MysqlData implements DataInterface{
         for ($i=1; $i<=$dayCount; $i++){
             $iDay = date('Y-m-d', strtotime("+".$i." day", strtotime($datesArray[0])));
             
-            $query = $query    ."TIME_FORMAT(SEC_TO_TIME(sum(if(dt like '". $iDay.
-                              "',TIME_TO_SEC(hours),0))),'%H:%i') as '".$iDay."-t',".
-                                "TIME_FORMAT(SEC_TO_TIME(sum(if(dt like '". $iDay.
-                              "',TIME_TO_SEC(delay),0))),'%H:%i') as '".$iDay."-d',";
+            $query = $query    
+                                ."TIME_FORMAT(
+                                    SEC_TO_TIME( 
+                                        sum(
+                                            if(
+                                                t.dt like '". $iDay."',
+                                                t.hours,
+                                                0
+                                            )
+                                        )
+                                    ),
+                                    '%H:%i'
+                                ) as '".$iDay."-t',".
+                                
+                                "TIME_FORMAT(
+                                    SEC_TO_TIME(
+                                        sum(
+                                            if(
+                                                t.dt like '". $iDay."',
+                                                t.delay,
+                                                0
+                                            )
+                                        )
+                                    ),
+                                    '%H:%i'
+                                ) as '".$iDay."-d',";
         }
 
-        $query = $query .   "TIME_FORMAT(SEC_TO_TIME(sum(TIME_TO_SEC(hours))),'%H:%i') as 'ttl-t', ".
-                            "TIME_FORMAT(SEC_TO_TIME(sum(TIME_TO_SEC(delay))),'%H:%i') as 'ttl-d' ".
+        $query = $query .   "TIME_FORMAT(
+                                SEC_TO_TIME(
+                                    sum(t.hours)
+                                ),
+                                '%H:%i'
+                            ) as 'ttl-t', ".
+                            
+                            "TIME_FORMAT(SEC_TO_TIME( sum(t.delay) ),'%H:%i') as 'ttl-d' ".
                          " from 
-                            parsed 
-                           where name is not null and dt >'".$fStartDate."' and dt < '".$fEndDate.
-                        "' GROUP BY name ORDER BY subdiv, name";
+                            (select staff_id, 
+                                    name, 
+                                    subdiv, 
+                                    appoint,
+                                    dt, 
+                                    if (
+                                        sum(
+                                            TIME_TO_SEC(hours)
+                                        ) > 90000,
+                                        32400,
+                                        sum(
+                                            TIME_TO_SEC(hours)
+                                        ) 
+                                    ) as hours,
+                                    sum(TIME_TO_SEC(delay)) as delay
+                                from parsed    
+                            where name is not null and 
+                            dt >'".$fStartDate."' and dt < '".$fEndDate."' 
+                            group by name, dt) t
+                            group by t.name
+                            order by t.subdiv, t.name";
         return $this->objectsToArray(\DB::select($query));
 
     }
