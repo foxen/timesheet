@@ -100,7 +100,7 @@ var ContentTable = React.createClass({
                         var cx = React.addons.classSet; 
                         var classes = cx(cell.attributes);
                         return  <td>  
-                                  <div id={cell.id} className = {classes}>
+                                  <div id={cell.id} className = {classes} className = 'DDDD'>
                                       {cell.value}
                                   </div>
                                 </td>;
