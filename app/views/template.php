@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Timesheet</title>
+    <title>Табель за январь 2014</title>
     <script src="js/react-with-addons.js"></script>
     <script src="js/JSXTransformer.js"></script>
     <script src="js/jquery-1.11.0.min.js"></script>

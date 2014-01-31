@@ -11,10 +11,7 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+Route::get('/', 'TestController@doit');
 
 Route::get('test1', 'TestController@doit');
 Route::get('gettimesheet', 'TestController@gettimesheet');

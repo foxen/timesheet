@@ -17,7 +17,7 @@ var TimesheetTable = React.createClass({
   },
   
   handleMount: function(ch){
-    console.log(ch);
+    console.log('m');
   },
 
   componentDidMount: function() {
@@ -46,6 +46,7 @@ var TimesheetTable = React.createClass({
                 scrollableX = 'X'/>
 
       <ContentTable data    = {this.state.data.body}
+                handleMount = {this.handleMount.bind(this)} 
                 cName   = 'timesheet_body'/>
       
       <ContentTable data    = {this.state.data.fixed}  
@@ -76,7 +77,7 @@ var ContentTable = React.createClass({
     if(this.props.scrollableY == 'Y') {
       window.addEventListener('scroll', this.handleScrollY);
     }
-   
+    
   },
 
   handleScrollY:function(event){

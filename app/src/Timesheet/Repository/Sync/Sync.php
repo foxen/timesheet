@@ -87,21 +87,24 @@ class Sync implements SyncInterface{
     }
 
     private function sync($datesArray){
-        
-        $controllersArray = $this->Devices->getControllers();
-        
-        $resStaff       = $this->Data->putStaff(
-                            $this->InputAdapter->getStuff($datesArray));
-        
-        $resEvents      = $this->Data->putEvents(
-                            $this->InputAdapter->getEvents($datesArray,$controllersArray));
-        
-        $grafIdsArray   = $this->Data->getGrafIds();
-        $intervalsArray = $this->InputAdapter->getIntervals($grafIdsArray);
+        if($this->Data->setSyncState()){
+            $controllersArray = $this->Devices->getControllers();
+            
+            $resStaff       = $this->Data->putStaff(
+                                $this->InputAdapter->getStuff($datesArray));
+            
+            $resEvents      = $this->Data->putEvents(
+                                $this->InputAdapter->getEvents($datesArray,$controllersArray));
+            
+            $grafIdsArray   = $this->Data->getGrafIds();
+            $intervalsArray = $this->InputAdapter->getIntervals($grafIdsArray);
 
-        $resIntervals   = $this->Data->putIntervals($intervalsArray);
-        
-        return $resStaff && $resEvents && $resIntervals;
+            $resIntervals   = $this->Data->putIntervals($intervalsArray);
+
+            $resUnset       = $this->Data->unsetSyncState();
+            
+            return $resStaff && $resEvents && $resIntervals && $resUnset;
+        }
     }
 
     private function parse($datesArray){

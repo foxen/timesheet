@@ -45,6 +45,27 @@ class MysqlData implements DataInterface{
         return $this->insertAssoc("intervals", $intervalsArray, true, false);
     }
 
+    public function setSyncState(){
+        $query = "select val from params where param like 'syncstate'";
+        $currentState = $this->objectsToFlatArray(\DB::select($query));
+        
+        if(empty($currentState)){
+            $currentState[] = 'notsync';
+        }
+
+        if ($currentState[0] == 'syncs'){
+            return false;
+        }
+        $query = "insert into params (param, val, created_at, updated_at) values ('syncstate', 'syncs', now(), now()) 
+                    on duplicate key update val = 'syncs', updated_at = now()";
+        return \DB::statement($query);
+    }
+
+    public function unsetSyncState(){
+        $query = "update params set val = 'notsync', updated_at = now() where param like 'syncstate'";
+        return \DB::statement($query);
+    }
+
 //==================================================================================
     
     public function parse($datesArray, $readersArray){

@@ -8,5 +8,7 @@ interface DataInterface{
     public function parse($datesArray, $readersArray);
     public function getTimesheet($datesArray);
     public function getGrafIds();
+    public function setSyncState();
+    public function unsetSyncState();
 }
 ?>
