@@ -11,37 +11,48 @@ var TimesheetTable = React.createClass({
   getInitialState: function() {
     return {
       data:    DummyData,
+      loadingStyle:{display:'block',},
+      isLoading: 1,
     };
   },
   
+  handleMount: function(ch){
+    console.log(ch);
+  },
+
   componentDidMount: function() {
     
     $.get(this.props.source, function(result) {
       this.setState({
-        data: result
+        data: result,
+        loadingStyle:{display:'none',},
+        isLoading: 0,
       });
     }.bind(this));
     
   },
 
   render: function() {
-    return (<div className = 'timesheet_table'>
-              
-              <ContentTable data    = {this.state.data.fixed_head}  
-                        cName   = 'timesheet_fixed_head'/>                  
-              
-              <ContentTable data    = {this.state.data.head}  
-                        cName   = 'timesheet_head'
-                        scrollableX = 'X'/>
+    return (
+      <div className = 'timesheet_table'>
+      <loadingMark loadingStyle = {this.state.loadingStyle} 
+            isLoading = {this.state.isLoading}/>
+      
+      <ContentTable data    = {this.state.data.fixed_head}  
+                cName   = 'timesheet_fixed_head'/>                  
+      
+      <ContentTable data    = {this.state.data.head}  
+                cName   = 'timesheet_head'
+                scrollableX = 'X'/>
 
-              <ContentTable data    = {this.state.data.body}  
-                        cName   = 'timesheet_body'/>
-              
-              <ContentTable data    = {this.state.data.fixed}  
-                        scrollableY = 'Y'
-                        cName   = 'timesheet_fixed'/>
-            
-            </div>
+      <ContentTable data    = {this.state.data.body}
+                cName   = 'timesheet_body'/>
+      
+      <ContentTable data    = {this.state.data.fixed}  
+                scrollableY = 'Y'
+                cName   = 'timesheet_fixed'/>
+    
+    </div>
     );
   }
 });
@@ -65,6 +76,7 @@ var ContentTable = React.createClass({
     if(this.props.scrollableY == 'Y') {
       window.addEventListener('scroll', this.handleScrollY);
     }
+   
   },
 
   handleScrollY:function(event){
@@ -100,7 +112,7 @@ var ContentTable = React.createClass({
                         var cx = React.addons.classSet; 
                         var classes = cx(cell.attributes);
                         return  <td>  
-                                  <div id={cell.id} className = {classes} className = 'DDDD'>
+                                  <div id={cell.id} className = {classes}>
                                       {cell.value}
                                   </div>
                                 </td>;
@@ -109,6 +121,20 @@ var ContentTable = React.createClass({
         })}
     </tbody></table>
     );
+  }
+});
+
+var loadingMark = React.createClass({
+  render: function(){
+    return(
+      <div className = "loadingMark" style = {this.props.loadingStyle}> 
+        <div className = "innerLoading">
+          обновляем данные...
+        </div>
+
+
+      </div>
+    )
   }
 });
 
