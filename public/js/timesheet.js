@@ -142,5 +142,5 @@ var loadingMark = React.createClass({
 //===============================================================================
 
 React.renderComponent(
-  <TimesheetTable source="http://192.168.253.125/timesheet/gettimesheet" />,
+  <TimesheetTable source= {"gettimesheet"} />,
   document.getElementById('content'));

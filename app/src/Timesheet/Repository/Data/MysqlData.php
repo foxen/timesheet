@@ -95,14 +95,15 @@ class MysqlData implements DataInterface{
         $fStartDate = date('Y-m-d', strtotime($datesArray[0]));
         
         $fEndDate = strtotime($this->getLastEventDate()) <  strtotime($datesArray[1]) ? 
-                        date('Y-m-d',strtotime($this->getLastEventDate())):
+                        date('Y-m-d',strtotime( "+1 day",strtotime($this->getLastEventDate()))):
                         date('Y-m-d', strtotime($datesArray[1]));
         
+
         $days = (strtotime($fEndDate) - strtotime($fStartDate))/86400;
         $dayCount = (integer)$days;
 
         $query = "select staff_id, name, subdiv, appoint, ";
-        for ($i=1; $i<=$dayCount; $i++){
+        for ($i=1; $i<$dayCount; $i++){
             $iDay = date('Y-m-d', strtotime("+".$i." day", strtotime($datesArray[0])));
             
             $query = $query    

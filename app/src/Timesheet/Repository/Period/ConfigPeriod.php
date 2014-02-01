@@ -8,12 +8,12 @@ class ConfigPeriod implements PeriodInterface {
     }
 
     public function getEndDate(){
-        
         return date('d.m.Y', strtotime( "+1 month",
             strtotime(\Config::get('period.start_date'))));
     }
 
     public function getDates(){
+
         return array($this->getStartDate(),
             $this->getEndDate());
     }    

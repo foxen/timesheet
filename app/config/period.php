@@ -2,7 +2,7 @@
 
 return array(
 
-    'start_date' => '01.01.2014',
+    'start_date' => '01.12.2013',
 
 );
 

@@ -6,7 +6,7 @@ return array(
 
         'interbase' => array(
             
-            'db'       => '192.168.253.9:d:\perco\db\scd17k.fdb',
+            'db'       => '127.0.0.1:d:\perco\db\scd17k.fdb',
             'username' => 'sysdba',
             'password' => 'masterkey',
         
