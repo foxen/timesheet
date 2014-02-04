@@ -81,7 +81,6 @@ class Sync implements SyncInterface{
         if (strtotime($datesArray[0]) > strtotime($lastDt)){
             $newDatesArray = array($lastDt,$datesArray[1]);
         }        
-
         
         return $this->sync($newDatesArray) && $this->parse($newDatesArray);
     }
@@ -89,7 +88,7 @@ class Sync implements SyncInterface{
     private function sync($datesArray){
         if($this->Data->setSyncState()){
             $controllersArray = $this->Devices->getControllers();
-            
+ 
             $resStaff       = $this->Data->putStaff(
                                 $this->InputAdapter->getStuff($datesArray));
             

@@ -15,7 +15,7 @@ class TestController extends  BaseController {
 
         //Sync::parcelSync(\Period::getDates());
         //$a = Data::getTimesheet(\Period::getDates());
-        //Sync::parcelSync(\Period::getDates());
+        Sync::fullSync(\Period::getDates());
 
         return Api::getTimesheet(\Period::getDates());
     }

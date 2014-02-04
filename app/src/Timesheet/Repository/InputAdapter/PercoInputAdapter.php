@@ -20,7 +20,9 @@ class PercoInputAdapter implements InputAdapterInterface{
                     from                       
                        (select 
                             ref.*, 
-                            (STAFF.LAST_NAME || ' ' || STAFF.FIRST_NAME || ' ' || STAFF.MIDDLE_NAME) as name 
+                           (upper(left(STAFF.LAST_NAME,1))   || lower(substring(STAFF.LAST_NAME from 2))  || ' ' || 
+                            upper(left(STAFF.FIRST_NAME,1))  || lower(substring(STAFF.FIRST_NAME from 2)) || ' ' || 
+                            upper(left(STAFF.MIDDLE_NAME,1)) || lower(substring(STAFF.MIDDLE_NAME from 2))) as name 
                         from 
                             STAFF 
                         
