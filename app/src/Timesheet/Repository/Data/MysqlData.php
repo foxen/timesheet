@@ -150,14 +150,14 @@ class MysqlData implements DataInterface{
                                     dt, 
                                     if (
                                         sum(
-                                            TIME_TO_SEC(hours)
+                                            hours
                                         ) > 90000,
                                         32400,
                                         sum(
-                                            TIME_TO_SEC(hours)
+                                            hours
                                         ) 
                                     ) as hours,
-                                    sum(TIME_TO_SEC(delay)) as delay
+                                    sum(delay) as delay
                                 from parsed    
                             where name is not null and 
                             dt >'".$fStartDate."' and dt < '".$fEndDate."' 
@@ -263,7 +263,7 @@ class MysqlData implements DataInterface{
     }
 
     private function updateHours(){
-        $query = "update tmp_parsed set hours=timediff(out_datetime,in_datetime)";
+        $query = "update tmp_parsed set hours=TIME_TO_SEC(timediff(out_datetime,in_datetime))";
         //$queryU = "update tmp_parsed set hours='8:00:00' where hours > '25:00:00'";
         return \DB::statement($query);// && \DB::statement($queryU);
     }
@@ -318,12 +318,12 @@ class MysqlData implements DataInterface{
 
     private function fillDelay(){
         $query = "  update tmp_parsed set 
-                        delay = timediff(in_datetime, concat(dt, ' ', gr_in)) 
+                        delay = TIME_TO_SEC(timediff(in_datetime, concat(dt, ' ', gr_in))) 
                     where 
                         gr_in is not null";
 
         $queryU =   "update tmp_parsed set 
-                        delay = '00:00:00' 
+                        delay = 0 
                     where 
                         gr_in is null";
 
